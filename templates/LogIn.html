@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/LogIn.css">
+    <title>Login</title>
+{% endblock %}
+
+{% block script %}
+	function validateEmail() {
+        let email = document.getElementById('email').value.trim();
+        let emailError = document.getElementById('emailError');
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (email === "") {
+            emailError.innerText = "Email is required";
+            return false;
+        } else if (!emailPattern.test(email)) {
+            emailError.innerText = "Invalid email format";
+            return false;
+        } else {
+            emailError.innerText = "";
+            return true;
+        }
+    }
+
+    function validatePassword() {
+        let password = document.getElementById('pwd').value.trim();
+        let passwordError = document.getElementById('passwordError');
+
+        if (password === "") {
+            passwordError.innerText = "Password is required";
+            return false;
+        } else {
+            passwordError.innerText = "";
+            return true;
+        }
+    }
+
+    function validateForm() {
+        return validateEmail() && validatePassword();
+    }
+{% endblock %}
+
+{% block content %}
+  <div class="container d-flex align-items-center justify-content-center flex-column">
+    <div class="form-container">
+      <h2>Login Form</h2>
+        {% if messages %}
+        <div class="alert alert-primary" role="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+      {% endif %}
+      <form method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" oninput="validateEmail()">
+          <div id="emailError" class="error"></div>
+        </div>
+        <div class="mb-3">
+          <label for="pwd" class="form-label">Password:</label>
+          <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" oninput="validatePassword()">
+          <div id="passwordError" class="error"></div>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+      <p>Don't have account? <a href="/register/">Register</a></p>
+    </div>
+  </div>
+{% endblock %}

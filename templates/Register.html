@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/Register.css">
+    <title>Register</title>
+{% endblock %}
+
+{% block script %}
+    function validateName() {
+        let name = document.getElementById('name').value.trim();
+        let nameError = document.getElementById('nameError');
+
+        if (name === "") {
+            nameError.innerText = "Name is required";
+            return false;
+        } else {
+            nameError.innerText = "";
+            return true;
+        }
+    }
+
+    function validateEmail() {
+        let email = document.getElementById('email').value.trim();
+        let emailError = document.getElementById('emailError');
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (email === "") {
+            emailError.innerText = "Email is required";
+            return false;
+        } else if (!emailPattern.test(email)) {
+            emailError.innerText = "Invalid email format";
+            return false;
+        } else {
+            emailError.innerText = "";
+            return true;
+        }
+    }
+
+    function validatePassword() {
+        let password = document.getElementById('pwd').value.trim();
+        let passwordError = document.getElementById('passwordError');
+
+        if (password === "") {
+            passwordError.innerText = "Password is required";
+            return false;
+        } else if (password.length < 6) {
+            passwordError.innerText = "Password must be at least 6 characters long";
+            return false;
+        } else {
+            passwordError.innerText = "";
+            return true;
+        }
+    }
+
+    function validateConfirmPassword() {
+        let confirmPassword = document.getElementById('confirmPwd').value.trim();
+        let confirmPasswordError = document.getElementById('confirmPasswordError');
+        let password = document.getElementById('pwd').value.trim();
+
+        if (confirmPassword === "") {
+            confirmPasswordError.innerText = "Please confirm your password";
+            return false;
+        } else if (confirmPassword !== password) {
+            confirmPasswordError.innerText = "Passwords do not match";
+            return false;
+        } else {
+            confirmPasswordError.innerText = "";
+            return true;
+        }
+    }
+
+    function validateForm() {
+        return validateName() && validateEmail() && validatePassword() && validateConfirmPassword();
+    }
+{% endblock %}
+
+{% block content %}
+  <div class="container d-flex align-items-center justify-content-center flex-column">
+  <div class="form-container">
+    <h2 class="mb-4">Registration Form</h2>
+      {% if messages %}
+        <div class="alert alert-primary" role="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+      {% endif %}
+    <form method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
+        {% csrf_token %}
+      <div class="mb-3">
+        <label for="name" class="form-label">Name:</label>
+        <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" oninput="validateName()">
+        <div id="nameError" class="error"></div>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" oninput="validateEmail()">
+        <div id="emailError" class="error"></div>
+      </div>
+      <div class="mb-3">
+        <label for="pwd" class="form-label">Password:</label>
+        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" oninput="validatePassword()">
+        <div id="passwordError" class="error"></div>
+      </div>
+      <div class="mb-3">
+        <label for="confirmPwd" class="form-label">Confirm Password:</label>
+        <input type="password" class="form-control" id="confirmPwd" placeholder="Confirm password" name="confirmPwd" oninput="validateConfirmPassword()">
+        <div id="confirmPasswordError" class="error"></div>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <p>Already have account? <a href="/login/">Login</a></p>
+  </div>
+  </div>
+{% endblock %}

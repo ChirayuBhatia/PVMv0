@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/UploadFiles.css">
+    <title>Upload Files</title>
+{% endblock %}
+
+{% block script %}
+    function validateForm() {
+        let files = document.getElementById('formFileLg').files;
+        if (files.length === 0) {
+            alert('Please select at least one file to upload.');
+            return false;
+        }
+        if (document.getElementById('subject').value === ''){
+            let currentDate = new Date();
+            let formattedDateTime = 'Uploaded on ' + currentDate.toLocaleString();
+            document.getElementById('subject').value = formattedDateTime;
+        }
+        return true;
+    }
+{% endblock %}
+
+{% block content %}
+  <div class="container d-flex align-items-center justify-content-center flex-column">
+      <div class="form-container">
+        <h2 class="mb-4">Upload Files</h2>
+          {% if messages %}
+            <div class="alert alert-primary" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+          {% endif %}
+          <form method="post" enctype="multipart/form-data" id="myForm" onsubmit="return validateForm()">
+            {% csrf_token %}
+              <div class="mb-3">
+                  <label for="subject" class="form-label">Subject:</label>
+                  <input type="text" class="form-control" id="subject" placeholder="Enter Subject" name="subject">
+              </div>
+              <div class="mb-3">
+                  <input class="form-control form-control-lg" id="formFileLg" type="file" name="files[]" accept="image/*, application/pdf" multiple>
+                  <label for="formFileLg" class="form-label">Supported File Formats: .pdf, .png, .jpg, .jpeg</label>
+              </div>
+          <button type="submit" class="btn btn-primary">
+              Submit
+          </button>
+        </form>
+      </div>
+    </div>
+{% endblock %}

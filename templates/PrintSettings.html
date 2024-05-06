@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/PrintSettings.css">
+    <title>Print Settings</title>
+{% endblock %}
+
+{% block script %}
+	function calculate(fd, no, pages, pricePerCopy_Single, pricePerCopy_Double) {
+        let copies = document.getElementById('copies_' + fd + '_' + no).value;
+        let totalPrice;
+        if (document.getElementById('check_' + fd + '_' + no).checked) {
+            totalPrice = pages * copies * pricePerCopy_Double;
+        }
+        else{
+            totalPrice = pages * copies * pricePerCopy_Single;
+        }
+        document.getElementById("span_" + no).textContent = '₹ ' + totalPrice.toFixed(1);
+        return totalPrice;
+    }
+
+    function updateTotal() {
+        let priceSingle = {{ price.Single }};
+        let priceDouble = {{ price.Double }};
+        let total = 0;
+        let copies;
+        {% for file in files %}
+            total += calculate({{ fid }}, {{ file.no }}, {{ file.pages }}, priceSingle, priceDouble);
+        {% endfor %}
+        document.getElementById('rzp-button1').textContent = 'Pay (Total Amount: ₹ ' + total.toFixed(1) + ')';
+        return total;
+    }
+
+    document.getElementById('myForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        updateTotal();
+        this.submit();
+    });
+{% endblock %}
+
+{% block content %}
+    <div class="container d-flex align-items-center justify-content-center flex-column">
+        <div class="form-container">
+            <h2 class="mb-4">Configure Print Settings</h2>
+            {% if messages %}
+                <div class="alert alert-primary" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <form method="post" enctype="multipart/form-data" id="myForm" onsubmit="updateTotal()">
+                {% csrf_token %}
+                    {% for file in files %}
+                        <div class="mt-2">
+                          <a class="btn btn-outline-secondary" data-bs-toggle="collapse" href="#{{ file.no }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <div class="file-info">
+                                <span class="file-name">{{ file.name }}</span>
+                                <span class="file-price" id="span_{{ file.no }}">₹ {{ file.price }}</span>
+                            </div>
+                          </a>
+                        </div>
+                        <div class="collapse" id="{{ file.no }}">
+                          <div class="card card-body">
+                            <div class="mb-3">
+                                <label for="copies_{{ fid }}_{{ file.no }}" class="form-label">Copies: </label>
+                                <input type="number" class="form-control" id="copies_{{ fid }}_{{ file.no }}" value="1" name="copies_{{ fid }}_{{ file.no }}" min="1" max="10" onchange="updateTotal()">
+                            </div>
+                            <div class="form-check">
+                              <label class="form-check-label" for="check_{{ fid }}_{{ file.no }}">Print Both Sides </label>
+                                <input class="form-check-input" type="checkbox" value="on" id="check_{{ fid }}_{{ file.no }}" onchange="updateTotal()" name="check_{{ fid }}_{{ file.no }}" {% if file.pages == 1 %}disabled{% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                    {% endfor %}
+                <button type="submit" class="btn btn-primary mt-2" id="rzp-button1">Pay (Total Amount: ₹ {{ total }})</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+    var options = {
+        "key": "", // Enter the Key ID generated from the Dashboard
+        "amount": "", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "A4 Kiosk",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response){
+            alert(response.razorpay_payment_id);
+            alert(response.razorpay_order_id);
+            alert(response.razorpay_signature)
+        },
+        "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9000090000"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+    </script>
+{% endblock %}

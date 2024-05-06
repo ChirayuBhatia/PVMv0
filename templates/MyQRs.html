@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/MyQRs.css">
+    <title>My QRs</title>
+{% endblock %}
+
+{% block other %}
+    {% for modal in context %}
+        <div class="modal fade" id="{{ modal.fid }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="width: fit-content">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">{{ modal.subject }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body justify-content-center">
+                        <img id="qrcode" src="{{ modal.qr_url }}" alt="QR Code">
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+{% block content %}
+    {% if context %}
+    <div class="container d-flex align-items-center justify-content-center flex-column">
+        {% for item in context %}
+            <div onclick="$('#{{ item.fid }}').modal('show')" class="container">
+                <h4>{{ item.subject }}</h4>
+                <p>
+                    {% for file in item.files %}
+                        {{ file }}<br>
+                    {% endfor %}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <div class="container d-flex justify-content-center flex-column">
+            <div class="container justify-content-center">
+                <h2>You don't have any file(s) to be printed</h2>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
