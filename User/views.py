@@ -12,7 +12,6 @@ from qrcode import make
 from io import BytesIO
 import requests
 from math import ceil
-import razorpay
 # for sending mails and generate token
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
@@ -27,9 +26,6 @@ SALTKEY = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399"
 MERCHANT_ID = "PGTESTPAYUAT"
 PRICE_SINGLE_SIDED = 1.5
 PRICE_DOUBLE_SIDED = 1
-
-CLIENT_ID = "rzp_test_34xiv7uMNp00GI"
-CLIENT_SECRET = "BUA8hBQNrgkd4aLFFm3VVeXO"
 
 
 def index(request):
