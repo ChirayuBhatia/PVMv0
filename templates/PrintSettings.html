@@ -1,7 +1,54 @@
-{% extends 'base.html' %}
+{% extends 'Base.html' %}
 
 {% block head %}
-    <link rel="stylesheet" href="/static/css/PrintSettings.css">
+    <style>
+        .btn-outline-secondary {
+            width: 100%;
+        }
+        
+        .form-container {
+            min-width: 80%;
+            width: auto;
+            margin: auto;
+            padding: 10px 15px 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        
+        .form-container h2 {
+            text-align: center;
+        }
+        
+        .form-control {
+            margin-bottom: 5px;
+        }
+        
+        .btn-primary {
+            width: 100%;
+        }
+        
+        .file-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .file-name {
+            text-align: left;
+            flex-grow: 1;
+        }
+        
+        .file-price {
+            margin-left: 10px;
+        }
+        
+        .file-info {
+            font-weight: bolder;
+        }
+
+    </style>
     <title>Print Settings</title>
 {% endblock %}
 

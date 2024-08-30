@@ -1,7 +1,37 @@
-{% extends 'base.html' %}
+{% extends 'Base.html' %}
 
 {% block head %}
-    <link rel="stylesheet" href="/static/css/LogIn.css">
+    <style>
+        .error {
+            color: red;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .form-container {
+            width: 450px;
+            max-width: 80%;
+            margin: auto;
+            padding: 20px 20px 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        
+        .form-container h2 {
+            text-align: center;
+        }
+        
+        .form-control {
+            margin-bottom: 5px;
+        }
+        
+        .btn-primary {
+            width: 100%;
+        }
+    </style>
     <title>Login</title>
 {% endblock %}
 

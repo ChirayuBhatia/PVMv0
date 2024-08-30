@@ -1,7 +1,19 @@
-{% extends 'base.html' %}
+{% extends 'Base.html' %}
 
 {% block head %}
-    <link rel="stylesheet" href="/static/css/MyQRs.css">
+    <style>
+        .container .container{
+            width: 900px;
+            height: auto;
+            max-width: 95%;
+            margin: auto auto 5px;
+            padding: 10px 15px 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+    </style>
     <title>My QRs</title>
 {% endblock %}
 
