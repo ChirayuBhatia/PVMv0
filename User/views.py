@@ -184,7 +184,8 @@ def printsettings(request, fid):
 def qrs_page(request):
     user = request.user
     fids, context = [], []
-    files = list(File.objects.filter(user=user, Printed=False).values_list('fid', 'Subject', 'filename'))
+    files = list(File.objects.filter(user=user, Printed=False, PaymentStatus=True).values_list(
+        'fid', 'Subject', 'filename'))
     for file in files:
         if file[0] in fids:
             context[fids.index(file[0])]["files"].append(file[2])
