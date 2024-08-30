@@ -16,7 +16,7 @@
             }
             
             body {
-                background: url("/static/img/Background.jpg") no-repeat center;
+                background: url("{% static 'User/img/Background.jpg' %}") no-repeat center;
                 background-size: cover;
                 width: 100%;
             }
@@ -130,7 +130,7 @@
                     <div class="d-flex align-items-center order-lg-2">
                         <div class="navbar-text me-2 d-lg-block">
                             {% if request.user.is_authenticated %}
-                                <img class="mb-1" src="{% static 'img/person.svg' %}" alt="">
+                                <img class="mb-1" src="{% static 'User/img/person.svg' %}" alt="">
                                 {{ request.user.first_name }}
                             {% endif %}
                         </div>

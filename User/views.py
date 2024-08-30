@@ -167,24 +167,6 @@ def printsettings(request, fid):
                 total += (file.pages * file.Copies * (PRICE_DOUBLE_SIDED if file.DoubleSided else PRICE_SINGLE_SIDED))
                 file.pages = ceil(file.pages * file.Copies * (0.5 if file.DoubleSided else 1))
                 file.save()
-
-        # client = razorpay.Client(auth=(CLIENT_ID, CLIENT_SECRET))
-        # payment = client.order.create(data={
-        #     "amount": total*100,
-        #     "currency": "INR",
-        #     "receipt": f"Rcpt_id{user.id}_{fid}"
-        # })
-        # context = {
-        #     "KEY_ID": CLIENT_ID,
-        #     "ORDER_ID": payment['id'],
-        #     "AMOUNT": payment['amount'],
-        #     "RECEIPT": payment['receipt'],
-        #     "USER": {
-        #         "Name": request.user.get_full_name(),
-        #         "Email": request.user.email,
-        #     }
-        # }
-        # return render(request, "Payment.html", context)
         return redirect("/myQRs/")
     else:
         data = list(File.objects.filter(user=request.user, fid=fid).values('fid', 'filename', 'pages', 'count'))

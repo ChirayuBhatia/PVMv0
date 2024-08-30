@@ -7,7 +7,7 @@
 }
 
 body {
-    background: url("/static/img/Background.jpg") no-repeat center;
+    background: url("/static/User/img/Background.jpg") no-repeat center;
     background-size: cover;
     width: 100%;
 }
