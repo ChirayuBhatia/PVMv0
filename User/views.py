@@ -32,6 +32,9 @@ CLIENT_ID = "rzp_test_34xiv7uMNp00GI"
 CLIENT_SECRET = "BUA8hBQNrgkd4aLFFm3VVeXO"
 
 
+def index(request):
+    return render(request, 'index.html')
+
 
 @login_required(login_url='/login/')
 def qr_image(request, fid):
@@ -183,37 +186,6 @@ def printsettings(request, fid):
         # }
         # return render(request, "Payment.html", context)
         return redirect("/myQRs/")
-        # MAINPAYLOAD = {
-        #     "merchantId": MERCHANT_ID,
-        #     "merchantTransactionId": f"{user.id}_{fid}",
-        #     "merchantUserId": user.id,
-        #     "amount": total*100,
-        #     "redirectUrl": "http://127.0.0.1:8000/res/",
-        #     "redirectMode": "POST",
-        #     "callbackUrl": "http://127.0.0.1:8000/res/",
-        #     "mobileNumber": "",
-        #     "paymentInstrument": {
-        #         "type": "PAY_PAGE"
-        #     }
-        # }
-        # endpoint = "/pg/v1/pay"
-        # base64String = base64_encode(MAINPAYLOAD)
-        # mainString = base64String + endpoint + SALTKEY
-        # sha256Val = calculate_sha256_string(mainString)
-        # checkSum = sha256Val + '###' + INDEX
-        # headers = {
-        #     'Content-Type': 'application/json',
-        #     'X-VERIFY': checkSum,
-        #     'accept': 'application/json',
-        # }
-        # json_data = {
-        #     'request': base64String,
-        # }
-        # response = requests.post('https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay',
-        #                          headers=headers, json=json_data)
-        # response_data = response.json()
-        # print(response_data)
-        # return redirect(response_data['data']['instrumentResponse']['redirectInfo']['url'])
     else:
         data = list(File.objects.filter(user=request.user, fid=fid).values('fid', 'filename', 'pages', 'count'))
         context = {

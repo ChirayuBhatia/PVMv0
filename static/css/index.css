@@ -1,0 +1,26 @@
+body {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 100vw;
+}
+
+.animated-text {
+  opacity: 0;
+  transition: all 1s ease-in-out;
+}
+
+#welcome {
+  font-family: "Gupter", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.animated-text.active {
+  opacity: 1;
+  transform: translateY(50%);
+}
+
+#hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.507), rgba(0, 0, 0, 0.438)), url("https://www.everwallpaper.co.uk/cdn/shop/collections/marble-geometry-wallpaper-mural.jpg?v=1660198030") center;
+  background-size: cover;
+}

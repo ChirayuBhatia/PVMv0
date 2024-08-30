@@ -49,12 +49,12 @@ body {
     background-color: #00b383;
 }
 
-.navbar-togger {
+.navbar-toggler {
     border: none;
     font-size: 1.25rem;
 }
 
-.navbar-togger:focus, btn-close:focus {
+.navbar-toggler:focus, .btn-close:focus {
     box-shadow: none;
     outline: none;
 }
@@ -68,6 +68,7 @@ body {
 .nav-link:hover, .nav-link:active {
     color: #000;
 }
+
 @media (min-width: 991px) {
     .nav-link::before {
         content: "";
@@ -85,5 +86,25 @@ body {
     .nav-link:hover::before, .nav-link.active::before {
         width: 100%;
         visibility: visible;
+    }
+
+    #canvas {
+        display: none;
+    }
+}
+
+.navbar-text {
+    font-family: "Montserrat", sans-serif;
+    border: 5px;
+}
+
+.navbar-text.me-2.d-none.d-lg-block {
+    margin-right: 1rem;
+    display: none;
+}
+
+@media (max-width: 991px) {
+    #nav{
+        display: none;
     }
 }
