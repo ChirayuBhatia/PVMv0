@@ -12,6 +12,10 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             background-color: #fff;
+            cursor: pointer;
+        }
+        span {
+            font-size: smaller;
         }
     </style>
     <title>My QRs</title>
@@ -43,6 +47,7 @@
                 <p>
                     {% for file in item.files %}
                         {{ file }}<br>
+                        <span>(Click here to display the qr code)</span>
                     {% endfor %}
                 </p>
             </div>

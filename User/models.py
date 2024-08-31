@@ -34,8 +34,8 @@ def delete_file_with_entry(sender, instance, **kwargs):
 class Transaction(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     fid = models.ForeignKey(File, on_delete=models.DO_NOTHING)
-    transactionId = models.CharField(name="TransactionID", max_length=100)
-    amount = models.FloatField(name="Amount")
+    transactionId = models.CharField(name="TransactionID", max_length=100)  # Merchant Transaction ID
+    amount = models.FloatField(name="Amount")                               # In Paise
     status = models.CharField(name="Status", max_length=100)
 
 

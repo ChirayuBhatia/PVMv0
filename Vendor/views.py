@@ -12,7 +12,7 @@ class FileAPIView(APIView):
         fid = self.request.query_params.get('fid')
         user = self.request.query_params.get('user')
         count = self.request.query_params.get('count')
-        file = File.objects.get(user=user, fid=fid, count=count, Printed=False)
+        file = File.objects.get(user=user, fid=fid, count=count, Printed=False,)  # PaymentStatus=True)
         vendor = Vendor.objects.get(User=request.user)
         vendor.AvailablePages -= file.pages if not file.DoubleSided else ceil(file.pages/2)
         vendor.TonerCount += file.pages
